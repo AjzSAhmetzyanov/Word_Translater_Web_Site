@@ -1,0 +1,60 @@
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 55vh;
+}
+
+.form{
+    width: 600px;
+    height: 220px;
+    padding: 30px;
+    border-radius: 30px;
+    box-shadow: 0 4px 16px #ccc;
+    font-family: sans-serif;
+    letter-spacing: 1px;
+}
+
+.container{
+    position: absolute;
+    top: 0;
+    z-index: -1;
+    color: #9e9e9e;
+    transition: 0.3s;
+    font-weight: normal;
+}
+
+.texts{
+    font-family: sans-serif;
+    letter-spacing: 5px;
+    font-size: 25px;
+}
+
+.pole{
+    font-family: sans-serif;
+    letter-spacing: 2px;
+    font-size: 100px;
+}
+
+.btn1{
+    position: center;
+    border-radius: 5px;
+    border: 0;
+    font-size: 1rem;
+    font-weight: 5;
+    margin: 0.5rem 0;
+    padding: 0.5rem 0.5rem;
+    text-transform: uppercase;
+    white-space: nowrap;
+}
+.btn2{
+    position: center;
+    border-radius: 5px;
+    border: 0;
+    font-size: 1rem;
+    font-weight: 5;
+    margin: 0.5rem 0;
+    padding: 0.5rem 0.5rem;
+    text-transform: uppercase;
+    white-space: nowrap;
+}
