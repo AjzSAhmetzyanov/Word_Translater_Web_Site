@@ -1,52 +1,52 @@
-from flask import Flask, render_template
+from flask import Flask, render_template, request
 from flask_restful import Api, Resource, reqparse
-import requests as req
-import json
+import requests
 
 app = Flask(__name__)
 api = Api(app)
 
+URL_AUTH = 'https://developers.lingvolive.com/api/v1.1/authenticate'
+URL_TRANSLATE = 'https://developers.lingvolive.com/api/v1/Minicard'
+KEY = 'YTExYTEyYTQtZmQxYS00YzhjLThhNTMtNmQ2YjdhN2MxZmMwOmY1N2VjZGRiZjI0NzQ3MjI5MGY1MDVmYzY1NmM3YzM5'
+
+headers_auth = {'Authorization': 'Basic ' + KEY}
+auth = requests.post(URL_AUTH, headers=headers_auth)
+
 
 @app.route('/')
-def index():
-    return render_template('index.html')
+def __init__():
+#     return render_template('index.html')
+#
+#
+# @app.get('/')
+# def get(self):
+    if auth.status_code == 200:
+        token = auth.text
+        word = request.args.get("textin")
+        print(word)
+        if word:
+            headers_translate = {
+                'Authorization': 'Bearer ' + token
+            }
+            params = {
+                'text': word,
+                'srcLang': 1033,
+                'dstLang': 1049
+            }
+            r = requests.get(URL_TRANSLATE, headers=headers_translate, params=params)
+            res = r.json()
+            try:
+                print(res['Translation']['Translation'])
+            except:
+                print("Не найдено слов для перевода")
+    else:
+        print("Error!")
+    return render_template('index.html', message=res['Translation']['Translation'])
 
 
-# courses = {
-#     1: {"name": "Python", "videos": 13},
-#     2: {"name": "Java", "videos": 12}
-# }
-#
-# parser = reqparse.RequestParser()
-# parser.add_argument("name", type=str)
-# parser.add_argument("videos", type=int)
-#
-#
-# class Main(Resource):
-#     def get(self):
-#         response = req.get('https://reqres.in/api/users?page=2')
-#         if response.status_code == 200:
-#             return response.json()
-#
-#     def delete(self, course_id):
-#         del courses[course_id]
-#         return courses
-#
-#     def post(self):
-#         payload = {"name": "Anthony", "job": "Programmer"}
-#         res = req.post('https://reqres.in/api/users', data=json.dumps(payload))
-#         if res.status_code == 200:
-#             return res.json()
-#
-#     def put(self, course_id):
-#         courses[course_id] = parser.parse_args()
-#         return courses
-#
-#
-# api.add_resource(Main, "/api/courses/<int:course_id>")
 api.init_app(app)
 if __name__ == "__main__":
-    app.run(port=5000, host="127.0.0.1")
+    app.run(port=4000, host="127.0.0.1")
     app.config['ENV'] = 'development'
     app.config['DEBUG'] = True
     app.config['TESTING'] = True
