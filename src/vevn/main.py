@@ -7,7 +7,7 @@ api = Api(app)
 
 URL_AUTH = 'https://developers.lingvolive.com/api/v1.1/authenticate'
 URL_TRANSLATE = 'https://developers.lingvolive.com/api/v1/Minicard'
-KEY = 'YTExYTEyYTQtZmQxYS00YzhjLThhNTMtNmQ2YjdhN2MxZmMwOmY1N2VjZGRiZjI0NzQ3MjI5MGY1MDVmYzY1NmM3YzM5'
+KEY = 'Zjc0MjExYTUtY2RhYy00ZmQxLTliYWItYzBiMGI5ZjE2MzE2OjJlMDNkNjk1NjEwOTRkZDM4N2YzMWM2MWY2ZTUzNmMy'
 
 headers_auth = {'Authorization': 'Basic ' + KEY}
 auth = requests.post(URL_AUTH, headers=headers_auth)
@@ -15,11 +15,7 @@ auth = requests.post(URL_AUTH, headers=headers_auth)
 
 @app.route('/')
 def __init__():
-#     return render_template('index.html')
-#
-#
-# @app.get('/')
-# def get(self):
+    mess = "";
     if auth.status_code == 200:
         token = auth.text
         word = request.args.get("textin")
@@ -35,13 +31,10 @@ def __init__():
             }
             r = requests.get(URL_TRANSLATE, headers=headers_translate, params=params)
             res = r.json()
-            try:
-                print(res['Translation']['Translation'])
-            except:
-                print("Не найдено слов для перевода")
+            mess = res['Translation']['Translation']
     else:
         print("Error!")
-    return render_template('index.html', message=res['Translation']['Translation'])
+    return render_template('index.html', message=mess)
 
 
 api.init_app(app)
